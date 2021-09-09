@@ -1,9 +1,10 @@
 <template>
-  <v-row :align="align" :justify="justify">
-    <v-col sm="12" md="12" xs="1">
+  <div>
+    <v-row :align="align" :justify="justify">
       <slot />
-    </v-col>
-  </v-row>
+    </v-row>
+    <!-- <v-divider /> -->
+  </div>  
 </template>
 
 <script>
