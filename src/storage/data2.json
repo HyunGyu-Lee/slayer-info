@@ -1,0 +1,33 @@
+{
+  "attacks": {
+    "gold": 45000,
+    "grow": 64238,
+    "relics": 221,
+    "elli": 150,
+    "playerOption": 271,
+    "crewOption": 560,
+    "zeek": 64,
+    "grade": 550,
+    "classEquip": 21326,
+    "classHold": 19348.2
+  },
+  "criticals": {
+    "gold": 10000,
+    "relics": 28,
+    "current": 16094.70
+  },
+  "superCriticals": {
+    "gold": 1193
+  },
+  "weapon": {
+    "equip": 32878230,
+    "hold": {
+      "1": [1, 2, 3, 4],
+      "2": [1, 2, 3, 4],
+      "3": [1, 2, 3, 4],
+      "4": [1, 2, 3, 4],            
+      "5": [1, 2, 3, 4],
+      "6": [1, 2, 3, 4]
+    }
+  }
+}

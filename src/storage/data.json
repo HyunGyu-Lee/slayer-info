@@ -1,0 +1,51 @@
+{
+  "baseStat": {
+    "atk": 12345
+  },
+  "growStat": {
+    "atk": 12345
+  },
+  "weapon": {
+    "normal": [
+      { "grade": 4, "atk": 1 },
+      { "grade": 3, "atk": 2 },
+      { "grade": 2, "atk": 3 },
+      { "grade": 1, "atk": 4 }
+    ],
+    "advanced": [
+      { "grade": 4, "atk": 10 },
+      { "grade": 3, "atk": 20 },
+      { "grade": 2, "atk": 30 },
+      { "grade": 1, "atk": 40 }
+    ],
+    "rare": [
+      { "grade": 4, "atk": 100 },
+      { "grade": 3, "atk": 200 },
+      { "grade": 2, "atk": 300 },
+      { "grade": 1, "atk": 400 }
+    ],
+    "hero": [
+      { "grade": 4, "atk": 1000 },
+      { "grade": 3, "atk": 2000 },
+      { "grade": 2, "atk": 3000 },
+      { "grade": 1, "atk": 4000 }
+    ],
+    "legand": [
+      { "grade": 4, "atk": 10000 },
+      { "grade": 3, "atk": 20000 },
+      { "grade": 2, "atk": 30000 },
+      { "grade": 1, "atk": 40000 }
+    ],
+    "epic": [
+      { "grade": 4, "atk": 100000 },
+      { "grade": 3, "atk": 200000 },
+      { "grade": 2, "atk": 300000 },
+      { "grade": 1, "atk": 400000 }
+    ]
+  },
+  "relics": {
+    "atk": 12345,
+    "cri": 123
+  },
+  "crew": {}
+}
