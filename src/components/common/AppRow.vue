@@ -1,9 +1,11 @@
 <template>
   <div>
+    <br />
+    <h2>{{ title }}</h2>
+    <br />
     <v-row :align="align" :justify="justify">
       <slot />
     </v-row>
-    <!-- <v-divider /> -->
   </div>  
 </template>
 
@@ -21,6 +23,11 @@ export default {
       required: false,
       default: 'start'
     },
+    title: {
+      type: String,
+      required: false,
+      default: ''
+    }
   }
 }
 </script>

@@ -9,7 +9,7 @@
       </v-btn>
     </v-app-bar>
     <v-main>
-      <v-container class="fill-height pl-8 pr-8" fluid>
+      <v-container class="fill-height pl-8 pr-8 pb-8" fluid>
         <router-view></router-view>
       </v-container>
     </v-main>
