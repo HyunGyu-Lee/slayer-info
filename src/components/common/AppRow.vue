@@ -1,7 +1,7 @@
 <template>
   <div>
     <br />
-    <h2>{{ title }}</h2>
+    <h2>{{ title }}</h2><small> {{ subTitle }}</small>
     <br />
     <v-row :align="align" :justify="justify">
       <slot />
@@ -24,6 +24,11 @@ export default {
       default: 'start'
     },
     title: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    subTitle: {
       type: String,
       required: false,
       default: ''

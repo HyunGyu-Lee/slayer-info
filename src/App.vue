@@ -1,10 +1,10 @@
 <template>
   <v-app>
-    <v-app-bar app dark color="primary" clipped-left>      
+    <v-app-bar v-if="isLogin" app dark color="primary" clipped-left>      
       <h3>슬키 정보 계산기</h3>
       <v-spacer></v-spacer>
-      <v-btn href="https://github.com/HyunGyu-Lee" target="_blank" text>
-        <span class="mr-2">contact</span>
+      <v-btn @click="doLogout" text>
+        <span class="mr-2">LOGOUT</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
     </v-app-bar>
@@ -13,7 +13,7 @@
         <router-view></router-view>
       </v-container>
     </v-main>
-    <v-bottom-navigation v-model="bottomNav" app background-color="primary" grow dark shift fixed>
+    <v-bottom-navigation v-if="isLogin" v-model="bottomNav" app background-color="primary" grow dark shift fixed>
       <v-btn to="/main" height="100%">
         <span>Main</span><v-icon>mdi-newspaper-variant-multiple</v-icon>
       </v-btn>
@@ -47,7 +47,12 @@ export default {
     },
     loading: false
   }),
-  created() {
+  computed: {
+    isLogin() {
+      return this.$store.state.isLogin;
+    }
+  },
+  created() { 
     // Listen show alert request
     this.activeToastMessage()
 
@@ -66,6 +71,9 @@ export default {
       this.$app.EventBus.$on('setLoadingState', (loadingState) => {
         this.loading = loadingState
       });
+    },
+    doLogout() {
+      this.$store.dispatch('logout');
     }
   }
 };

@@ -6,9 +6,10 @@ import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@mdi/font/css/materialdesignicons.css'
 
 // import app components
-import AppBiz from '@/modules/app'
-import App from '@/App'
-import router from '@/modules/router'
+import AppBiz from '@/modules/app';
+import App from '@/App';
+import router from '@/modules/router';
+import store from '@/modules/store';
 
 import '@/components'
 
@@ -21,5 +22,6 @@ Vue.prototype.$app = AppBiz
 new Vue({
   vuetify,
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

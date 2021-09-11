@@ -20,8 +20,10 @@ const app = firebase.initializeApp(firebaseConfig);
 
 export default {
   app,
+  firebase,
   collections: {
     SITE_USERS: 'site-users',
-    SLAYER_INFOS: 'slayer-infos'
+    SLAYER_INFOS: 'slayer-infos',
+    HUNTING_INFOS: 'hunting-infos'
   }
 }

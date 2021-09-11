@@ -1,0 +1,10 @@
+{
+  "weapons": [
+    { "grade": "g1", "name": "일반", "subGrades": [0, 1, 2, 3] }, 
+    { "grade": "g2", "name": "고급", "subGrades": [0, 1, 2, 3] }, 
+    { "grade": "g3", "name": "레어", "subGrades": [0, 1, 2, 3] }, 
+    { "grade": "g4", "name": "영웅", "subGrades": [0, 1, 2, 3] }, 
+    { "grade": "g5", "name": "전설", "subGrades": [0, 1, 2, 3] }, 
+    { "grade": "g6", "name": "신화", "subGrades": [0, 1, 2, 3] }
+  ]
+}
