@@ -1,12 +1,15 @@
 <template>
   <app-base app-name="슬키 얼마나 강해졌나 볼까요?">
     <app-row>
-      <v-col cols="12">
-        <v-btn @click="onSave">저장</v-btn>
+      <v-col cols="1">
+        <v-btn @click="onSave" color="error">저장</v-btn>
       </v-col>
+      <v-col cols="1">
+        <v-btn @click="onReset" color="warning">리셋</v-btn>
+      </v-col>      
     </app-row>
-    <app-row :title="`정보입력 (ID: ${userInfo.id})`" :subTitle="`마지막 업데이트: ${lastModifiedAt}`" justify="center">      
-      <v-col cols="6">
+    <app-row :title="`ID: ${userInfo.id}`" :subTitle="`마지막 업데이트: ${lastModifiedAt}`" justify="center">      
+      <v-col cols="4">
         <v-card outlined tile :loading="loading" elevation="1" height="510">
           <v-card-title><h4>공격력 / 치명타 / 회심</h4></v-card-title>
           <v-card-text class="mt-3">
@@ -72,7 +75,7 @@
         </v-card>
       </v-col> 
       <!-- <v-spacer></v-spacer> -->
-      <v-col cols="6">
+      <v-col cols="4">
         <v-card outlined tile :loading="loading" elevation="1" height="510">
           <v-card-title><h4>무기</h4></v-card-title>
           <v-card-text class="mt-3">
@@ -104,24 +107,16 @@
           </v-card-text>
         </v-card>
       </v-col>
-    </app-row>
-    <!-- <br />
-    <v-divider />
-    <br /> -->
-    <app-row title="결과">
-      <v-col cols="12">
-        <v-card outlined tile :loading="loading" elevation="1">
-          <v-card-title><h4>성적표</h4></v-card-title>
-          <v-card-text class="mt-3">
-            공격력: {{ playerAttack }} ({{ playerAttackAll / 10000000000000000 }}경)
-          </v-card-text>
-        </v-card>
+      <v-divider vertical></v-divider>
+      <v-col cols="4">
+        <slayer-info-area :info="slayerInfo" :loading="loading" /> 
       </v-col>
-    </app-row>
+    </app-row>    
   </app-base>
 </template>
 
 <script>
+import SlayerInfoArea from './parts/SlayerInfoArea';
 import SlayerService from '@/modules/service/slayer';
 import { slayerInfo, config } from '@/init-data';
 import 'moment/locale/ko'
@@ -129,6 +124,9 @@ import moment from 'moment';
 
 export default {
   name: 'MainApp',
+  components: {
+    SlayerInfoArea
+  },
   data: () => {
     return {
       loading: true,
@@ -136,31 +134,32 @@ export default {
       slayerInfo
     }
   },
-  async created() {
-    console.log(moment(new Date()));
-    let res = await SlayerService.getSlayerInfo(this.userInfo.id).get();
-    this.slayerInfo = res.data();
-    this.loading = false;    
+  created() {
+    this.loadSlayerInfo();
   },
   computed: {
     userInfo() {
       return this.$store.state.userInfo;
-    },
-    playerAttack() {      
-      return SlayerService.getPlayerAttack(this.slayerInfo, false);
-    },
-    playerAttackAll() {
-      return SlayerService.getPlayerAttack(this.slayerInfo, true);
     },
     lastModifiedAt() {
       return moment(this.userInfo.lastModifiedAt.toDate()).fromNow()
     }
   },
   methods: {
+    async loadSlayerInfo() {
+      this.loading = true;
+      let res = await SlayerService.getSlayerInfo(this.userInfo.id).get();
+      this.slayerInfo = res.data();
+      this.loading = false;
+    },
     onSave() {
+      this.loading = true;
       SlayerService.saveSlayerInfo(this.userInfo.id, this.slayerInfo).then(() => {
-        console.log('마지막 저장일시: ' + Date.now());
+        this.loading = false;
       });
+    },
+    onReset() {
+      this.loadSlayerInfo();
     }
   }
 }

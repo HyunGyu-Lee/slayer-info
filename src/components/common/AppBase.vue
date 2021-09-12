@@ -1,5 +1,5 @@
 <template>
-  <v-container class="fill-witdh">
+  <v-container class="fill-witdh" fluid>
     <h1>{{ appName }}</h1>
     <slot />
   </v-container>  

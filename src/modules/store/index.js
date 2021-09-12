@@ -19,6 +19,9 @@ const mutations = {
   processLogout(state) {
     state.isLogin = false;
     state.userInfo = {};
+  },
+  processUpdateLastModifiedAt(state, now) {
+    state.userInfo.lastModifiedAt = now;
   }
 };
 
@@ -40,6 +43,9 @@ const actions = {
   logout({ commit }) {
     commit('processLogout');
     router.push('/login');
+  },
+  updateLastModifiedAt({ commit }, now) {
+    commit('processUpdateLastModifiedAt', now);
   }
 }
 

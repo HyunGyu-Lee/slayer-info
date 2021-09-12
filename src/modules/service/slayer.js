@@ -1,10 +1,11 @@
 import Vue from 'vue'
-import firebase from '@/modules/firebase'
+import firebaseModule from '@/modules/firebase'
+import store from '../store';
+//import store from '@/modules/store';
 // import _ from 'lodash'
 
-const firestore = firebase.app.firestore();
+const firestore = firebaseModule.app.firestore();
 const EventBus = new Vue()
-const config = {g1: 0, g2: 0, g3: 0, g4: 0, g5: 0, g6: 0};
 
 export default {
   EventBus,
@@ -14,15 +15,21 @@ export default {
    * @returns 플레이어 정보
    */
   getSlayerInfo(slayerId) {
-    return firestore.collection(firebase.collections.SLAYER_INFOS).doc(slayerId)
+    return firestore.collection(firebaseModule.collections.SLAYER_INFOS).doc(slayerId)
   },
   /**
    * 플레이어 정보 저장
    * @param slayerId 플레이어 ID
    * @param slayerInfo 플레이어 정보
    */
-  saveSlayerInfo(slayerId, slayerInfo) {
-    // TODO 마지막 수정일시 업데이트 해주기
+  async saveSlayerInfo(slayerId, slayerInfo) {
+    let now = firebaseModule.firebase.firestore.Timestamp.fromDate(new Date());
+    await this.getSlayerInfo(slayerId).set(Object.assign({}, slayerInfo));
+    await firestore
+      .collection(firebaseModule.collections.SITE_USERS)
+      .doc(slayerId)
+      .update({lastModifiedAt: now});
+    store.dispatch('updateLastModifiedAt', now);
     return this.getSlayerInfo(slayerId).set(Object.assign({}, slayerInfo));
   },
   /**
@@ -33,12 +40,25 @@ export default {
    */
   getPlayerAttack(slayerInfo, applyOption) {
     let attackInfo = slayerInfo.attacks;
-    console.log(applyOption);
+
+    // 골드 공격력 + 성장 공격력
     let a = attackInfo.gold * 4 + attackInfo.grow;
+
+    // 무기 장착 + 보유 효과
     let b = this.getPlayerWeaponTotal(slayerInfo) / 100;
-    let c = (attackInfo.relics + attackInfo.elli) / 100 + 1;
+
+    // 유물 + 엘리 + 승급옵션 + 동료 승급옵션
+    let c1 = attackInfo.relics + attackInfo.elli;
+    let c2 = attackInfo.playerOption + attackInfo.crewOption;
+    let c = (applyOption ? c1 + c2 : c1) / 100 + 1;
+
+    // 지크
     let d = attackInfo.zeek / 100 + 1;
+
+    // 승급배수
     let e = attackInfo.grade;
+
+    // 클래시 장착 + 보유 효과
     let f = (attackInfo.classEquip + attackInfo.classHold) / 100 + 1;
     return a * b * c * d * e * f;
   },
@@ -52,7 +72,7 @@ export default {
     let equipAttack = this.getWeaponEquipAttack(equipInfo.grade, equipInfo.subGrade, weapons[equipInfo.grade][equipInfo.subGrade]);
     let holdAttack = 0;
     for (let grade in weapons) {
-      holdAttack += weapons[grade].reduce((acc, subGradeIndex) => acc + this.getWeaponHoldAttack(grade, subGradeIndex), 0);
+      holdAttack += weapons[grade].reduce((acc, level, index) => acc + this.getWeaponHoldAttack(grade, level, index), 0)
     }
     return equipAttack + holdAttack;
   },
@@ -64,7 +84,8 @@ export default {
    * @returns 
    */
   getWeaponEquipAttack(grade, subGrade, level) {
-    // TODO 무기 장착 공격력 계산식 구현
+    // TODO 현재 가라데이터로 구현되있음 / 무기 장착 공격력 계산식 구현
+    const config = {g1: 1, g2: 2, g3: 3, g4: 4, g5: 5, g6: 10};
     return config[grade] + subGrade + level;
   },
   /**
@@ -74,7 +95,7 @@ export default {
    * @param level 강화 레벨 
    * @returns 
    */
-  getWeaponHoldAttack(grade, subGrade) {
-    return this.getWeaponEquipAttack(grade, subGrade) / 10 * 3;
+  getWeaponHoldAttack(grade, subGrade, level) {
+    return this.getWeaponEquipAttack(grade, subGrade, level) / 10 * 3;
   }
 }
